@@ -10,7 +10,7 @@ public class Seed extends Peer{
 	/*GLOBALS*/
 	public Seed(Socket connectionSocket) {
 		super("-1", -1); // superclass not important
-							
+					//first commit		
 		try {
 			connect_socket(connectionSocket);
 		} catch (Exception e) {
