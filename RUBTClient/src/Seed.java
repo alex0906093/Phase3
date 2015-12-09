@@ -55,7 +55,7 @@ public class Seed extends Peer{
 				Message unchoke = new Message(1, (byte)1);
 				dOutStream.write(unchoke.mess);
 				dOutStream.flush();
-				System.out.println("Handshake complete");
+				System.out.println("Uploading Handshake complete");
 				return true;
 			}else{
 				//peer is uninterested

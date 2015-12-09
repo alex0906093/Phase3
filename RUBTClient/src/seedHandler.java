@@ -15,15 +15,16 @@ public class seedHandler implements Runnable {
 
 	ServerSocket seederListen;
 	
-	int portNum = 69420;	//may want to have this inputed as a argument to the constructor
+	int portNum = 6884;	//may want to have this inputed as a argument to the constructor
 	
 	
 	public seedHandler(){
 		
 		try{
-			seederListen = new ServerSocket(portNum);
+			this.seederListen = new ServerSocket(this.portNum);
 		} catch ( Exception e ){
 			System.out.println("Server socket set up failure.");
+			e.printStackTrace();
 		}
 		
 	}
@@ -36,11 +37,14 @@ public class seedHandler implements Runnable {
 	 */
 	
 	public void run(){
+		System.out.println("New seed handler thread running");
 		try{
 				while(true){
 					Socket clientSocket = seederListen.accept();
 					//now we have a peer connected to us on this socket
 					//create a new seed for it
+					Seed newSeeder =  new Seed( clientSocket);
+					new Thread(newSeeder).start();
 					
 				}
 		} catch ( Exception e ){

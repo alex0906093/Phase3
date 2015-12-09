@@ -114,8 +114,10 @@ public class RUBTClient{
         peers = tResponseDecoded.peers;
         int peerIndex;
         info_hash = tInfo.info_hash.array();
-        	TrackerThread announceThread = new TrackerThread();
-        	
+     	TrackerThread announceThread = new TrackerThread();
+        seedHandler frontDoor = new seedHandler();
+        new Thread(frontDoor).start();	
+               
             //in actual production peerIndex < peers.size();
             for(peerIndex = 0; peerIndex < tResponseDecoded.peers.size(); peerIndex++){
             	if(!peers.get(peerIndex).ipAdd.equals("128.6.171.132")){
@@ -128,6 +130,8 @@ public class RUBTClient{
 		              }
                 }
 	        }
+            
+         
             
             new Thread(announceThread).start();
 
