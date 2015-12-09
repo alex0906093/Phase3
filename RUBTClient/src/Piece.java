@@ -29,7 +29,7 @@ public class Piece{
 			this.pieceSize = pieceSize;
 			this.lastBlockSize = pieceSize;
 			this.rawBytes = new byte[pieceSize];
-			this.numBlocks =1;
+			this.numBlocks = 1;
 			this.wroteBlock = new boolean[numBlocks];
 		}
 		else{
@@ -51,6 +51,7 @@ public class Piece{
 			this.numBlocks = pieceSize/16384;
 			this.rawBytes = new byte[pieceSize];
 			this.wroteBlock = new boolean[numBlocks];
+			this.verify = new Verify(RUBTClient.tInfo);
 		}
 	}
 	
@@ -81,13 +82,15 @@ public class Piece{
 	 *return 1 if the hash checks out
 	*/
 	public int haveAllBlocks(){
-		synchronized(this){
+		
+			System.out.println("trying to verify :piece :numBlocks" + this.pieceIndex + " " + this.numBlocks);
 		for(int i = 0; i < numBlocks; i++){
 			if(!this.wroteBlock[i]){
-				//System.out.println("Block " + i + " of Piece " + pieceIndex + " is 0");
+				System.out.println("Block " + i + " of Piece " + pieceIndex + " is 0");
 				return 0;
 			}
 		}	//if our bytes
+			System.out.println("Got here");
 			if(!verify.checkHash(rawBytes, pieceIndex)){
 				System.out.println("The data was corrupt, trying to redownload");
 				reset();
@@ -95,6 +98,7 @@ public class Piece{
 			}else{
 				verified = true;
 				try {
+					System.out.println("Got to here");
 					RUBTClient.globalMemory.updateDownload(pieceIndex,rawBytes);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -103,7 +107,7 @@ public class Piece{
 				System.out.println("Wrote piece " + pieceIndex);
 				return 1;
 			}
-		}
+		
 	}
 	//corrupt data, get it again
 	private void reset(){

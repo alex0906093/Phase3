@@ -93,6 +93,7 @@ public class Download extends Peer{
 			i = RUBTClient.globalMemory.nextNeededPiece();
 			sendRequest(i);
 			get_piece();
+			get_piece();
 		}
 		
 	}
@@ -111,6 +112,8 @@ public class Download extends Peer{
 						block[i]=dInStream.readByte();
 					}
 					System.out.println("Read Block");
+					RUBTClient.globalMemory.add_block(index, begin, len2-9, block);
+					System.out.println("added block");
 				}
 			}
 		} catch (IOException e) {

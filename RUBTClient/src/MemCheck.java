@@ -71,7 +71,7 @@ public class MemCheck{
 		this.piecesGotten++;
 	}
 	
-	public synchronized boolean have_piece(int index){
+	public boolean have_piece(int index){
 		return this.finished_pieces[index];
 	}
 	/*Method that gives new piece for a thread to get*/
@@ -81,6 +81,16 @@ public class MemCheck{
 				return -1;
 			return neededPieces.remove();
 		}
+	}
+	public synchronized void add_block(int pieceIndex, int offset,int size,byte[] b){
+		Piece p = this.pieces.get(pieceIndex);
+		p.writeBlock(b, offset);
+		if(p.haveAllBlocks() == 1){
+			this.finished_pieces[pieceIndex]=true;
+			System.out.println("verified");
+		}
+		return;
+	
 	}
 	public synchronized void putPieceBack(int i){
 		synchronized(neededPieces){
