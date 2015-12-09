@@ -10,7 +10,7 @@ public class Seed extends Peer{
 	/*GLOBALS*/
 	public Seed(Socket connectionSocket) {
 		super("-1", -1); // superclass not important
-							
+					
 		try {
 			connect_socket(connectionSocket);
 		} catch (Exception e) {
@@ -23,7 +23,12 @@ public class Seed extends Peer{
 		
 	}
 	
-	
+	public boolean peerToPeerHandshake( byte[] info_hash) throws Exception{
+		
+		byte[] incomingHandshake = new byte[68]; //all handshake message lengths are the same
+		
+		
+	}
 	
 
 }
