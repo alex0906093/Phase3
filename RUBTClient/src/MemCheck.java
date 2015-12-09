@@ -14,7 +14,7 @@ import java.io.RandomAccessFile;
 public class MemCheck{
 	//Array List of all pieces in memory, maybe these shouldn't be held, keep track
 	public ArrayList<Piece> pieces = new ArrayList<Piece>();
-	
+	public boolean[] finished_pieces;
 	//file we're writing to
 	public RandomAccessFile file;
 	private TorrentInfo tInfo;
@@ -37,6 +37,7 @@ public class MemCheck{
 		for(int i =0; i < tInfo.piece_hashes.length; i++){
 			neededPieces.add(i);
 		}
+		this.finished_pieces=new boolean[tInfo.piece_hashes.length];
 		
 		//INITIALIZE Pieces
 		for(int i = 0; i < tInfo.piece_hashes.length; i++){
@@ -69,7 +70,10 @@ public class MemCheck{
 		this.left = left - fullPiece.length;
 		this.piecesGotten++;
 	}
-
+	
+	public synchronized boolean have_piece(int index){
+		return this.finished_pieces[index];
+	}
 	/*Method that gives new piece for a thread to get*/
 	public synchronized int nextNeededPiece(){
 		synchronized(neededPieces){
