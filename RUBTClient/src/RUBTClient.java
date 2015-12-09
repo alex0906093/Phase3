@@ -26,6 +26,7 @@ public class RUBTClient{
     public static MemCheck globalMemory = null;
     public static TrackerResponse tResponseDecoded = null;
     public static final int PEER_LIMIT = 5;
+    public static String DIPS;
 	public static void main(String[] args) throws FileNotFoundException, IOException{
 		/*Get variables ready*/
         String torrentFN;
@@ -109,18 +110,22 @@ public class RUBTClient{
         	System.out.println("Problem decoding tracker response");
         	return;
         }
-
+        DIPS = "";
         peers = tResponseDecoded.peers;
         int peerIndex;
         info_hash = tInfo.info_hash.array();
         	TrackerThread announceThread = new TrackerThread();
         	
             //in actual production peerIndex < peers.size();
-            for(peerIndex = 0; peerIndex < peers.size(); peerIndex++){
+            for(peerIndex = 0; peerIndex < tResponseDecoded.peers.size(); peerIndex++){
             	if(!peers.get(peerIndex).ipAdd.equals("128.6.171.132")){
-		              Download peer = new Download(peers.get(peerIndex).ipAdd, peers.get(peerIndex).port);
-                      /*Lets schedule everything together*/
-		              new Thread(peer).start();
+		              if(!DIPS.contains(peers.get(peerIndex).ipAdd)){
+		            	Download peer = new Download(tResponseDecoded.peers.get(peerIndex).ipAdd, tResponseDecoded.peers.get(peerIndex).port);
+                      	DIPS += " " + peer.ipAdd + " ";
+		              	/*Lets schedule everything together*/
+		              	new Thread(peer).start();
+		              	//System.out.println("Peer index is " + peerIndex);
+		              }
                 }
 	        }
             
