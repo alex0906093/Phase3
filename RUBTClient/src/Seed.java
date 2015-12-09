@@ -21,6 +21,15 @@ public class Seed extends Peer{
 	
 	public void run(){
 		
+		System.out.println("Trying to upload in a new thread");
+		
+		try{
+			peerToPeerHandshake( tInfo.info_hash.array());
+			//if that succeds we can upload
+			upload();
+		}catch ( Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean peerToPeerHandshake( byte[] info_hash) throws Exception{
@@ -71,7 +80,27 @@ public class Seed extends Peer{
 				begin = dInStream.readInt();
 				length = dInStream.readInt();
 				
-				if( )
+				if( MemCheck.finished_pieces[index] == true){
+					 pieceBlock = new byte[length];
+					 //copy the requested block into the pieceBlock
+					 //throw that pieceBlock into a piece message
+					 System.arraycopy(pieces.subList(index, pieces.size()).toArray(), begin, pieceBlock, 0, length );
+					 piece = new Message(9+ length, (byte) 7);
+					 
+					 piece.setLoad(begin, index, pieceBlock, -1, -1, -1, -1);
+					 
+					 dOutStream.write(piece.mess);
+					 dOutStream.flush();
+					 MemCheck.uploaded += length;
+	
+				}else {
+					//we dont have this piece
+					//Message chokeMess = new Message(1, (byte) 1);
+					//dOutStream.write(chokeMess.mess);
+					//dOutStream.flush();
+				}
+			}else{
+				//we received some other type of message and should ignore it
 			}
 		}
 	}

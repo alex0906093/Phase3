@@ -23,7 +23,7 @@ public class MemCheck{
 	private Queue<Integer> neededPieces = new LinkedList<Integer>();
 	
 	//ints to see what we need to do
-	public int uploaded=0;
+	public static int uploaded=0;
 	public int downloaded=0;
 	public int left;
 	private int piecesGotten=0;
