@@ -65,18 +65,10 @@ public abstract class Peer implements Runnable{
 		//Initialize variables
 		this.ipAdd = ipAdd;
 		this.port = port;
-		this.tInfo = tInfo;
+		this.tInfo = RUBTClient.tInfo;
 		this.availablePieces = new LinkedList<Integer>();
-		System.out.println("IP Address of peer is " + ipAdd + "opening Socket");
+		//System.out.println("IP Address of peer is " + ipAdd + " opening Socket");
 		//try to establish a connection and open a socket
-		try{
-			socket = new Socket(ipAdd, port);
-			connect_socket(socket);
-		}catch(Exception e){
-			System.out.println("Connection setup failed");
-		}
-
-
 
 	}
 

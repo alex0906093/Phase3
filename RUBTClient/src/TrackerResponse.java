@@ -105,7 +105,7 @@ public class TrackerResponse{
     	String aURL= announce.toString();
     	aURL += "?" + "info_hash" + "=" + info_hash + "&" + "peer_id" + "=" + peer_id + "&" + "port" + "=" + port + "&" + "uploaded" + "="
     	+ uploaded + "&" + "downloaded" + "=" + downloaded + "&" + "left" + "=" + left + "&" + "event" + "=" + started;
-    	System.out.println("URL is : " + aURL);
+    	//System.out.println("URL is : " + aURL);
     	HttpURLConnection con = (HttpURLConnection)new URL(aURL).openConnection();
     	DataInputStream dInStream = new DataInputStream(con.getInputStream());
     	int dSize = con.getContentLength();
@@ -127,7 +127,7 @@ public class TrackerResponse{
     	String aURL= announce.toString();
     	aURL += "?" + "info_hash" + "=" + info_hash + "&" + "peer_id" + "=" + peer_id + "&" + "port" + "=" + port + "&" + "uploaded" + "="
     	+ uploaded + "&" + "downloaded" + "=" + downloaded + "&" + "left" + "=" + left;
-    	System.out.println("URL is : " + aURL);
+    	//System.out.println("URL is : " + aURL);
     	HttpURLConnection con = (HttpURLConnection)new URL(aURL).openConnection();
     	DataInputStream dInStream = new DataInputStream(con.getInputStream());
     	int dSize = con.getContentLength();
