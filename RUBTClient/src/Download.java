@@ -91,9 +91,18 @@ public class Download extends Peer{
 		int i;
 		while(true){
 			i = RUBTClient.globalMemory.nextNeededPiece();
-			sendRequest(i);
-			get_piece();
-			get_piece();
+			if(i == -1){
+				return;
+			}else if(i == RUBTClient.tInfo.piece_hashes.length-1){
+				sendRequest(i);
+				get_piece();
+				get_piece();
+				return;
+			}else{
+				sendRequest(i);
+				get_piece();
+				get_piece();
+			}
 		}
 		
 	}
@@ -111,9 +120,9 @@ public class Download extends Peer{
 					for(int i = 0; i < len2-9;i++){
 						block[i]=dInStream.readByte();
 					}
-					System.out.println("Read Block");
+					//System.out.println("Read Block");
 					RUBTClient.globalMemory.add_block(index, begin, len2-9, block);
-					System.out.println("added block");
+					//System.out.println("added block");
 				}
 			}
 		} catch (IOException e) {
@@ -123,7 +132,13 @@ public class Download extends Peer{
 	}
 	public void sendRequest(int index){
 		Message.RequestMessage reqMess1 = new Message.RequestMessage(index, 0, 16384);
-		Message.RequestMessage reqMess2 = new Message.RequestMessage(index, 16384, 16384);
+		int second_block = 0;
+		if(index == RUBTClient.tInfo.piece_hashes.length-1){
+			second_block = RUBTClient.globalMemory.last_piece_size-16384;
+		}else{
+			second_block = 16384;
+		}
+		Message.RequestMessage reqMess2 = new Message.RequestMessage(index, 16384, second_block);
 		//send first request
 		try {
 			dOutStream.writeInt(13);

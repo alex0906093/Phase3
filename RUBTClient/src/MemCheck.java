@@ -14,11 +14,11 @@ import java.io.RandomAccessFile;
 public class MemCheck{
 	//Array List of all pieces in memory, maybe these shouldn't be held, keep track
 	public ArrayList<Piece> pieces = new ArrayList<Piece>();
-	public boolean[] finished_pieces;
+	public static boolean[] finished_pieces;
 	//file we're writing to
 	public RandomAccessFile file;
 	private TorrentInfo tInfo;
-	
+	public int last_piece_size;
 	//Lets keep a queue of all pieces we need, only accessable through a method in this class
 	private Queue<Integer> neededPieces = new LinkedList<Integer>();
 	
@@ -33,6 +33,8 @@ public class MemCheck{
 		this.tInfo = tInfo;
 		this.file = file;
 		this.left = tInfo.file_length;
+		this.last_piece_size = tInfo.file_length%tInfo.piece_length;
+		System.out.println("Last piece size is " + this.last_piece_size);
 		//INITIALIZE THE Queue, worry about everything else later
 		for(int i =0; i < tInfo.piece_hashes.length; i++){
 			neededPieces.add(i);
@@ -87,7 +89,7 @@ public class MemCheck{
 		p.writeBlock(b, offset);
 		if(p.haveAllBlocks() == 1){
 			this.finished_pieces[pieceIndex]=true;
-			System.out.println("verified");
+			//System.out.println("verified");
 		}
 		return;
 	

@@ -70,7 +70,7 @@ public class Piece{
 			}
 			wroteBlock[a] = true;
 		//System.out.println("Piece size is " + pieceSize + " Writing Block " + a + " of " + numBlocks + " to piece " + pieceIndex);
-		System.out.println("byte array length is " + b.length);
+		//System.out.println("byte array length is " + b.length);
 		System.arraycopy(b,0,this.rawBytes,begin,b.length);
 		}
 	}
@@ -83,14 +83,14 @@ public class Piece{
 	*/
 	public int haveAllBlocks(){
 		
-			System.out.println("trying to verify :piece :numBlocks" + this.pieceIndex + " " + this.numBlocks);
+			//System.out.println("trying to verify :piece :numBlocks" + this.pieceIndex + " " + this.numBlocks);
 		for(int i = 0; i < numBlocks; i++){
 			if(!this.wroteBlock[i]){
-				System.out.println("Block " + i + " of Piece " + pieceIndex + " is 0");
+				//System.out.println("Block " + i + " of Piece " + pieceIndex + " is 0");
 				return 0;
 			}
 		}	//if our bytes
-			System.out.println("Got here");
+			//System.out.println("Got here");
 			if(!verify.checkHash(rawBytes, pieceIndex)){
 				System.out.println("The data was corrupt, trying to redownload");
 				reset();
@@ -98,7 +98,7 @@ public class Piece{
 			}else{
 				verified = true;
 				try {
-					System.out.println("Got to here");
+					//System.out.println("Got to here");
 					RUBTClient.globalMemory.updateDownload(pieceIndex,rawBytes);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

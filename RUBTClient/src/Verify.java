@@ -16,7 +16,6 @@ public class Verify{
 	//check hash against tInfo
 	public boolean checkHash(byte[] check, int index){
 		MessageDigest d = null;
-		System.out.println("And 1");
 		try{
 			d = MessageDigest.getInstance("SHA-1");
 		}catch(NoSuchAlgorithmException e){
